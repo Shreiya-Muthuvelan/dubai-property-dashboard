@@ -10,7 +10,6 @@ SELECT ROUND(AVG(actual_worth),2) AS avg_transaction_price , MEDIAN(actual_worth
 vw_transactions_clean;
 
 --What is the average price per sqft (actual_worth / procedure_area) across all transactions?
--- meter_sale_price is price per spft only
 SELECT ROUND(AVG(meter_sale_price),2) AS average_price_per_sqft FROM vw_transactions_clean;
 
 -- How many distinct areas are represented?
