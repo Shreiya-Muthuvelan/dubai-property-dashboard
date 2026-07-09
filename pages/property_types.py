@@ -71,35 +71,6 @@ st.dataframe(
 
 st.divider()
 
-# --- Sub-type breakdown within each property type ---
-st.subheader("Sub-Type Breakdown")
-
-selected_type = st.selectbox(
-    "Choose a property type to drill into:",
-    by_type["property_type_en"].tolist(),
-)
-
-with st.spinner("Loading sub-type data..."):
-    escaped_type = selected_type.replace("'", "''")
-    sub_types = run_query(f"""
-        SELECT property_sub_type_en, COUNT(*) AS txn_count, ROUND(AVG(actual_worth), 2) AS avg_price
-        FROM vw_transactions_clean
-        WHERE {where_clause} AND property_type_en = '{escaped_type}'
-        GROUP BY property_sub_type_en
-        ORDER BY txn_count DESC
-    """)
-
-fig_sub = px.bar(
-    sub_types, x="property_sub_type_en", y="txn_count",
-    labels={"property_sub_type_en": "Sub-Type", "txn_count": "Transaction Count"},
-    title=f"Sub-Types within {selected_type}",
-    color_discrete_sequence=[PALETTE[1]],
-)
-apply_theme(fig_sub)
-st.plotly_chart(fig_sub, use_container_width=True)
-
-st.divider()
-
 # --- Parking comparison ---
 st.subheader("Parking Availability vs Price")
 
